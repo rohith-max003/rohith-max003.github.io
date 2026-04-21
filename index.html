@@ -6,3 +6,676 @@
   <title>Rohith Anand | Senior Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── Reset & Variables ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --bg2:       #161b22;
+      --bg3:       #21262d;
+      --border:    #30363d;
+      --accent:    #2188ff;
+      --accent2:   #58a6ff;
+      --text:      #e6edf3;
+      --text2:     #8b949e;
+      --text3:     #c9d1d9;
+      --navy:      #1f4e79;
+      --green:     #3fb950;
+      --card-bg:   #161b22;
+      --nav-bg:    rgba(13,17,23,0.85);
+      --radius:    12px;
+      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+    }
+    [data-theme="light"] {
+      --bg:        #ffffff;
+      --bg2:       #f6f8fa;
+      --bg3:       #eaeef2;
+      --border:    #d0d7de;
+      --accent:    #0969da;
+      --accent2:   #0550ae;
+      --text:      #1f2328;
+      --text2:     #656d76;
+      --text3:     #24292f;
+      --card-bg:   #f6f8fa;
+      --nav-bg:    rgba(255,255,255,0.90);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Navbar ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background var(--transition);
+    }
+    .nav-logo {
+      font-size: 1.1rem; font-weight: 700; color: var(--text);
+      text-decoration: none; letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: var(--text2); font-size: 0.875rem;
+      font-weight: 500; transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .theme-toggle {
+      background: none; border: 1px solid var(--border); border-radius: 8px;
+      width: 36px; height: 36px; cursor: pointer; color: var(--text2);
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition); font-size: 1rem;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Hero ──────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 80px 5% 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: center; gap: 4rem; max-width: 1100px; width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(33,136,255,0.1); border: 1px solid rgba(33,136,255,0.25);
+      color: var(--accent); padding: 6px 14px; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 500; margin-bottom: 1.2rem;
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+    .hero-name {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -1.5px; color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .hero-name .highlight { color: var(--accent); }
+    .hero-title {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text2); font-weight: 400; margin-bottom: 1.5rem;
+    }
+    .hero-title strong { color: var(--text3); font-weight: 600; }
+    .hero-desc {
+      color: var(--text2); font-size: 0.95rem; max-width: 520px;
+      line-height: 1.8; margin-bottom: 2.2rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 8px; font-size: 0.875rem;
+      font-weight: 600; text-decoration: none; cursor: pointer;
+      border: none; transition: all var(--transition);
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(33,136,255,0.3); }
+    .btn-secondary {
+      background: var(--bg3); color: var(--text); border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-avatar {
+      width: 220px; height: 220px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; font-weight: 900; color: #fff;
+      box-shadow: 0 0 0 4px var(--bg), 0 0 0 6px var(--border);
+      flex-shrink: 0; letter-spacing: -3px;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)} }
+
+    /* Glow orbs */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: 0.12; pointer-events: none; z-index: -1;
+    }
+    .orb-1 { width: 500px; height: 500px; background: var(--accent); top: -100px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: #7c3aed; bottom: -100px; right: -50px; }
+
+    /* ── Section Base ───────────────────────────────────────────── */
+    section { padding: 90px 5%; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block; color: var(--accent); font-size: 0.8rem;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800;
+      letter-spacing: -1px; color: var(--text); margin-bottom: 1rem;
+    }
+    .section-line {
+      width: 48px; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), #7c3aed);
+      margin-bottom: 3rem;
+    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ── About ──────────────────────────────────────────────────── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .about-text p {
+      color: var(--text2); font-size: 0.95rem; line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text3); font-weight: 600; }
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .stat-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+      text-align: center; transition: all var(--transition);
+    }
+    .stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .stat-num {
+      font-size: 2rem; font-weight: 800; color: var(--accent);
+      letter-spacing: -1px; display: block;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+
+    /* ── Skills ─────────────────────────────────────────────────── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-category {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: all var(--transition);
+    }
+    .skill-category:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+    .skill-cat-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 1.1rem;
+    }
+    .skill-cat-icon { font-size: 1.3rem; }
+    .skill-cat-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag {
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text3); font-size: 0.75rem; font-weight: 500;
+      padding: 4px 10px; border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      transition: all var(--transition);
+    }
+    .skill-tag:hover { background: rgba(33,136,255,0.1); border-color: var(--accent); color: var(--accent); }
+    .skill-tag.ai { background: rgba(88,166,255,0.08); border-color: rgba(88,166,255,0.3); color: var(--accent2); }
+
+    /* ── Work Highlights ────────────────────────────────────────── */
+    #projects { background: var(--bg2); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.8rem;
+      transition: all var(--transition); position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), #7c3aed);
+      transform: scaleX(0); transform-origin: left; transition: transform var(--transition);
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.2); }
+
+    .project-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.8rem; }
+    .project-icon { font-size: 1.8rem; }
+    .project-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .project-badge {
+      background: rgba(33,136,255,0.1); color: var(--accent);
+      font-size: 0.7rem; font-weight: 600; padding: 3px 8px;
+      border-radius: 4px; border: 1px solid rgba(33,136,255,0.2);
+    }
+    .project-badge.green { background: rgba(63,185,80,0.1); color: var(--green); border-color: rgba(63,185,80,0.2); }
+    .project-badge.purple { background: rgba(124,58,237,0.1); color: #a78bfa; border-color: rgba(124,58,237,0.2); }
+    .project-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .project-org { font-size: 0.78rem; color: var(--text2); margin-bottom: 0.8rem; }
+    .project-desc { font-size: 0.875rem; color: var(--text2); line-height: 1.75; margin-bottom: 1.2rem; }
+    .project-metrics { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .metric {
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    .metric-num { font-size: 1.1rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+    .metric-label { font-size: 0.7rem; color: var(--text2); }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .stack-tag { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text2); background: var(--bg3); padding: 2px 8px; border-radius: 4px; }
+
+    /* ── Contact ────────────────────────────────────────────────── */
+    .contact-wrapper {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 3rem; text-align: center;
+      max-width: 620px; margin: 0 auto;
+    }
+    .contact-wrapper h3 { font-size: 1.6rem; font-weight: 800; color: var(--text); margin-bottom: 0.6rem; }
+    .contact-wrapper p { color: var(--text2); margin-bottom: 2rem; font-size: 0.95rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 8px; text-decoration: none;
+      font-size: 0.875rem; font-weight: 600; border: 1px solid var(--border);
+      color: var(--text); background: var(--bg3); transition: all var(--transition);
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .contact-link svg { width: 18px; height: 18px; }
+
+    /* ── Footer ─────────────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 2rem 5%; color: var(--text2);
+      font-size: 0.8rem; border-top: 1px solid var(--border);
+    }
+
+    /* ── Scroll Reveal ──────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-avatar { width: 150px; height: 150px; font-size: 3.5rem; margin: 0 auto; }
+      .hero-btns { justify-content: center; }
+      .hero-desc { margin: 0 auto 2rem; }
+      .hero-badge { margin: 0 auto 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ──────────────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-logo" href="#hero">Rohith<span>.</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </nav>
+
+  <!-- ── Hero ────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">Available for opportunities</div>
+        <h1 class="hero-name">Sairama <span class="highlight">Rohith</span><br>Anand</h1>
+        <p class="hero-title"><strong>Senior Software Engineer</strong> · 5+ Years Experience</p>
+        <p class="hero-desc">
+          I build scalable backend systems and cloud-native platforms that serve hundreds of thousands of users.
+          Deep in Java, Spring Boot, AWS & Azure — and actively shipping AI-powered features using
+          GitHub Copilot, Azure OpenAI, and LangChain.
+        </p>
+        <div class="hero-btns">
+          <a class="btn btn-primary" href="mailto:rohithlakkavarapu3@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16v16H4z"/><polyline points="22,4 12,14 2,4"/></svg>
+            Hire Me
+          </a>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/rr0711/" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/rohith-max003" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+      <div class="hero-avatar">RA</div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── About ────────────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="section-inner">
+      <span class="section-tag reveal">About Me</span>
+      <h2 class="section-title reveal">Building systems that scale.</h2>
+      <div class="section-line reveal"></div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm a <strong>Senior Software Engineer</strong> with 5+ years of experience designing and shipping
+            enterprise-grade backend services and cloud-native platforms. Currently at <strong>Deloitte USA</strong>,
+            I lead backend engineering across major state-level platforms serving hundreds of thousands of citizens daily.
+          </p>
+          <p>
+            My work spans the full stack — from architecting <strong>Spring Batch pipelines processing 1M+ records</strong>
+            to deploying microservices on AWS and Azure Kubernetes Service, with a sharp focus on performance,
+            observability, and cost optimization.
+          </p>
+          <p>
+            I'm also a strong believer in <strong>AI-augmented engineering</strong> — I actively integrate tools like
+            GitHub Copilot, Azure OpenAI Service, and LangChain to ship faster and build smarter.
+            M.S. in Computer Science from the University at Albany, SUNY.
+          </p>
+        </div>
+        <div class="stats-grid reveal">
+          <div class="stat-card">
+            <span class="stat-num">5+</span>
+            <span class="stat-label">Years of Experience</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">500K+</span>
+            <span class="stat-label">Users Served</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">40%</span>
+            <span class="stat-label">Cost Reduction</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">1M+</span>
+            <span class="stat-label">Records / Pipeline Run</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── Skills ───────────────────────────────────────────────────── -->
+  <section id="skills">
+    <div class="section-inner">
+      <span class="section-tag reveal">Tech Stack</span>
+      <h2 class="section-title reveal">Skills & Technologies</h2>
+      <div class="section-line reveal"></div>
+      <div class="skills-grid">
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <span class="skill-cat-icon">⚙️</span>
+            <span class="skill-cat-name">Backend Development</span>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span>
+            <span class="skill-tag">Spring Batch</span><span class="skill-tag">Hibernate</span>
+            <span class="skill-tag">Node.js</span><span class="skill-tag">Express.js</span>
+            <span class="skill-tag">GraphQL</span><span class="skill-tag">REST / SOAP</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <span class="skill-cat-icon">☁️</span>
+            <span class="skill-cat-name">Cloud & DevOps</span>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS</span><span class="skill-tag">Azure</span>
+            <span class="skill-tag">GCP</span><span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kubernetes</span><span class="skill-tag">Terraform</span>
+            <span class="skill-tag">Helm</span><span class="skill-tag">Jenkins</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <span class="skill-cat-icon">🤖</span>
+            <span class="skill-cat-name">AI / ML Tools</span>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag ai">GitHub Copilot</span>
+            <span class="skill-tag ai">Azure OpenAI</span>
+            <span class="skill-tag ai">LangChain</span>
+            <span class="skill-tag ai">OpenAI API</span>
+            <span class="skill-tag ai">RAG Pipelines</span>
+            <span class="skill-tag ai">Prompt Engineering</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <span class="skill-cat-icon">🗄️</span>
+            <span class="skill-cat-name">Databases</span>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">PostgreSQL</span><span class="skill-tag">MySQL</span>
+            <span class="skill-tag">Oracle</span><span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">DynamoDB</span><span class="skill-tag">Firebase</span>
+            <span class="skill-tag">DB2</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <span class="skill-cat-icon">🎨</span>
+            <span class="skill-cat-name">Frontend</span>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">React</span><span class="skill-tag">Angular</span>
+            <span class="skill-tag">TypeScript</span><span class="skill-tag">Vue.js</span>
+            <span class="skill-tag">HTML5</span><span class="skill-tag">Tailwind CSS</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <span class="skill-cat-icon">🧪</span>
+            <span class="skill-cat-name">Testing & Tools</span>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">JUnit</span><span class="skill-tag">Mockito</span>
+            <span class="skill-tag">Cypress</span><span class="skill-tag">Selenium</span>
+            <span class="skill-tag">SonarQube</span><span class="skill-tag">JIRA</span>
+            <span class="skill-tag">Maven</span><span class="skill-tag">Gradle</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── Work Highlights ──────────────────────────────────────────── -->
+  <section id="projects">
+    <div class="section-inner">
+      <span class="section-tag reveal">Work Highlights</span>
+      <h2 class="section-title reveal">What I've Built</h2>
+      <div class="section-line reveal"></div>
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div class="project-header">
+            <span class="project-icon">🏛️</span>
+            <div class="project-badges">
+              <span class="project-badge">Azure</span>
+              <span class="project-badge green">AI-Powered</span>
+            </div>
+          </div>
+          <h3 class="project-title">State-Wide Batch Processing Platform</h3>
+          <p class="project-org">Deloitte · Washington State</p>
+          <p class="project-desc">
+            Architected high-throughput Spring Batch pipelines processing 1M+ records per run.
+            Integrated Azure OpenAI to automate document data extraction, reducing manual review
+            time by 60%. Deployed on AKS with full observability stack.
+          </p>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-num">40%</span><span class="metric-label">Throughput boost</span></div>
+            <div class="metric"><span class="metric-num">60%</span><span class="metric-label">Manual work cut</span></div>
+            <div class="metric"><span class="metric-num">30%</span><span class="metric-label">MTTD reduced</span></div>
+          </div>
+          <div class="project-stack">
+            <span class="stack-tag">Spring Batch</span><span class="stack-tag">AKS</span>
+            <span class="stack-tag">Azure OpenAI</span><span class="stack-tag">Jenkins CI/CD</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-header">
+            <span class="project-icon">🌐</span>
+            <div class="project-badges">
+              <span class="project-badge">AWS</span>
+              <span class="project-badge green">500K+ Users</span>
+            </div>
+          </div>
+          <h3 class="project-title">Statewide Citizen Portal</h3>
+          <p class="project-org">Deloitte · Georgia State</p>
+          <p class="project-desc">
+            Core contributor to a citizen-facing portal serving 500K+ users. Built an AI-powered
+            FAQ assistant with LangChain + Azure OpenAI that deflected 20% of support tickets.
+            Deployed on AWS EKS with zero-downtime rolling updates.
+          </p>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-num">500K+</span><span class="metric-label">Active users</span></div>
+            <div class="metric"><span class="metric-num">3×</span><span class="metric-label">Availability boost</span></div>
+            <div class="metric"><span class="metric-num">30%</span><span class="metric-label">Compute savings</span></div>
+          </div>
+          <div class="project-stack">
+            <span class="stack-tag">Spring Boot</span><span class="stack-tag">AWS EKS</span>
+            <span class="stack-tag">LangChain</span><span class="stack-tag">Lambda</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-header">
+            <span class="project-icon">🚚</span>
+            <div class="project-badges">
+              <span class="project-badge purple">FedEx</span>
+              <span class="project-badge">99.99% SLA</span>
+            </div>
+          </div>
+          <h3 class="project-title">Logistics API Platform</h3>
+          <p class="project-org">CloudSpace LLC · FedEx</p>
+          <p class="project-desc">
+            Designed production-grade Spring Boot REST & SOAP services for FedEx shipment
+            workflows. Built geo-redundant deployments with Azure Traffic Manager achieving
+            99.99% uptime. Used GitHub Copilot to cut MTTR by 20%.
+          </p>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-num">99.99%</span><span class="metric-label">Uptime</span></div>
+            <div class="metric"><span class="metric-num">20%</span><span class="metric-label">MTTR reduction</span></div>
+          </div>
+          <div class="project-stack">
+            <span class="stack-tag">Spring Boot</span><span class="stack-tag">Azure</span>
+            <span class="stack-tag">GitHub Copilot</span><span class="stack-tag">CI/CD</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-header">
+            <span class="project-icon">🔬</span>
+            <div class="project-badges">
+              <span class="project-badge purple">Published</span>
+              <span class="project-badge green">Research</span>
+            </div>
+          </div>
+          <h3 class="project-title">Liver Cancer Detection via Deep Learning</h3>
+          <p class="project-org">Published · IJSRCSEIT</p>
+          <p class="project-desc">
+            Academic research on applying deep learning models for early-stage liver cancer
+            detection from medical imaging data. Published in the International Journal of
+            Scientific Research in Computer Science, Engineering and IT.
+          </p>
+          <div class="project-metrics">
+            <div class="metric"><span class="metric-num">Pub.</span><span class="metric-label">IJSRCSEIT</span></div>
+          </div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">Deep Learning</span>
+            <span class="stack-tag">Medical Imaging</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── Contact ──────────────────────────────────────────────────── -->
+  <section id="contact">
+    <div class="section-inner">
+      <span class="section-tag reveal">Get In Touch</span>
+      <h2 class="section-title reveal">Let's Connect</h2>
+      <div class="section-line reveal"></div>
+      <div class="contact-wrapper reveal">
+        <h3>Open to great opportunities 👋</h3>
+        <p>Whether it's a full-time role, contract work, or just a conversation — I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:rohithlakkavarapu3@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><polyline points="22,4 12,14 2,4"/></svg>
+            Email Me
+          </a>
+          <a class="contact-link" href="https://www.linkedin.com/in/rr0711/" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a class="contact-link" href="https://github.com/rohith-max003" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ───────────────────────────────────────────────────── -->
+  <footer>
+    <p>Designed & built by Rohith Anand · <a href="https://github.com/rohith-max003" target="_blank" style="color:var(--accent);text-decoration:none;">rohith-max003</a></p>
+  </footer>
+
+  <!-- ── Scripts ──────────────────────────────────────────────────── -->
+  <script>
+    // Theme toggle
+    const root = document.documentElement;
+    const btn  = document.querySelector('.theme-toggle');
+    function toggleTheme() {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      btn.textContent = isDark ? '🌙' : '☀️';
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Active nav link highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === `#${cur}` ? 'var(--accent)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>

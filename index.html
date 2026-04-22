@@ -1222,16 +1222,16 @@
     const phrase = phrases[pi];
     if (!deleting && ci <= phrase.length) {
       twEl.textContent = phrase.slice(0, ci++);
-      setTimeout(typeLoop, ci > phrase.length ? 2200 : 95);
+      setTimeout(typeLoop, ci > phrase.length ? 3000 : 95);
     } else if (deleting && ci >= 0) {
       twEl.textContent = phrase.slice(0, ci--);
-      setTimeout(typeLoop, 55);
+      setTimeout(typeLoop, 45);
     }
     if (ci > phrase.length) { deleting = true; return; }
     if (deleting && ci < 0) {
       deleting = false; ci = 0;
       pi = (pi + 1) % phrases.length;
-      setTimeout(typeLoop, 500);
+      setTimeout(typeLoop, 1500);
     }
   }
   setTimeout(typeLoop, 1000);
